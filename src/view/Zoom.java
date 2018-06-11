@@ -16,27 +16,28 @@ public class Zoom implements MouseWheelListener {
 		this.graphic = graphic;
 		this.buttons = buttons;
 	}
-	public void mouseWheelMoved(MouseWheelEvent e)
+	
+	public void mouseWheelMoved(MouseWheelEvent event)
 	{
-		if (e.getPreciseWheelRotation() < 0 && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+		if (event.getPreciseWheelRotation() < 0 && (KeyEvent.VK_CONTROL) != 0) {
             Dimension newSize = new Dimension(graphic.getWidth()+125, graphic.getHeight()+100);
             graphic.setPreferredSize(newSize);
             graphic.setSize(newSize);
             graphic.setFontSize(graphic.getFontSize()+3);
-            int scale = (int) (graphic.getSize().getHeight()/graphic.getInitialSize().getHeight()*100 - 100);
+            int scale = (int) (graphic.getSize().getHeight()/graphic.getfirstSize().getHeight()*100 - 100);
 
             buttons.changeLabelScale("Масштаб: " + scale + "%");
             graphic.revalidate();
         }
-        if (e.getPreciseWheelRotation() > 0 && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-            if (graphic.getWidth() > graphic.getInitialSize().getWidth()) {
+        if (event.getPreciseWheelRotation() > 0 && (KeyEvent.VK_CONTROL) != 0) {
+            if (graphic.getWidth() > graphic.getfirstSize().getWidth()) {
                 Dimension newSize = new Dimension(graphic.getWidth() - 125, graphic.getHeight() - 100);
                 graphic.setPreferredSize(newSize);
                 graphic.setSize(newSize);
                 if (graphic.getFontSize() > 15) {
                     graphic.setFontSize(graphic.getFontSize()-3);
                 }
-                int scale = (int) (graphic.getSize().getHeight()/graphic.getInitialSize().getHeight()*100 - 100);
+                int scale = (int) (graphic.getSize().getHeight()/graphic.getfirstSize().getHeight()*100 - 100);
                 if (scale < 0) 
                 {
                 	scale = 0;

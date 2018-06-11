@@ -11,27 +11,24 @@ public class Display extends JPanel {
 	private int height = 500;
 	public ArrayList values = new ArrayList();
 	public ArrayList args = new ArrayList();
-	private Dimension startXY = new Dimension(300, 250);
 	public Controller controller;
 	public MainWindow mainWindow;
 	public int penSize, fontSize;
-	public Dimension initialSize;
+	public Dimension firstSize;
 	public Dimension size;
 	public int initialFontSize = 15;
 	public int initialPenSize = 1;
-	private boolean change = false;
 
 	public Display(MainWindow mainWindow, Controller controller) {
 		this.mainWindow = mainWindow;
 		this.controller = controller;
-		// setLayout(null);
 		size = new Dimension(width, height);
 		setPreferredSize(size);
 		setSize(size);
 
 		penSize = 1;
 		fontSize = 15;
-		initialSize = size;
+		firstSize = size;
 
 	}
 
@@ -61,7 +58,8 @@ public class Display extends JPanel {
 		graph.drawString("Y", size.width / 2 - 20 * size.width / 600, 20 * size.height / 500);
 		graph.drawString("0", size.width / 2 - 20 * size.width / 600,  size.height / 2 + 20 * size.height / 500);
 
-		for (int index = 1; index < size.width / 20; index++) { // деления
+		for (int index = 1; index < size.width / 20; index++) 
+		{ 
 			graph.drawLine(20 * index * size.width / 600,  size.height / 2 - 3 * size.height / 500,
 					20 * index * size.width / 600,  size.height / 2 + 3 * size.height / 500);// x
 			graph.drawLine(size.width / 2 - 3 * size.width / 600, 20 * index * size.height / 500,
@@ -118,8 +116,8 @@ public class Display extends JPanel {
 		return penSize;
 	}
 
-	public Dimension getInitialSize() {
-		return initialSize;
+	public Dimension getfirstSize() {
+		return firstSize;
 	}
 
 	public int getInitialFontSize() {

@@ -1,9 +1,6 @@
 package model;
 
 import view.*;
-
-import java.util.ArrayList;
-
 import controller.Controller;
 
 public class Calculations extends Thread {
@@ -12,13 +9,12 @@ public class Calculations extends Thread {
 	public double beginI;
 	public double endI;
 	public int a;
-	private double h = 0.1;
-	// public Exchanger exchanger;
+	public double h = 0.1;
 	public MainWindow mainWindow = new MainWindow();
 	public Controller controller = new Controller();
-
-	// Exchanger exchanger
-	public Calculations(MainWindow mainWindow,Controller controller) {
+	
+	public Calculations(MainWindow mainWindow,Controller controller) 
+	{
 		this.mainWindow = mainWindow;
 		this.controller = controller;
 		a = mainWindow.tempA;
@@ -34,7 +30,8 @@ public class Calculations extends Thread {
 		return fx;
 	}
 
-	public void run() {
+	public void run() 
+	{
 		double beginX = beginI;
 		double endX = endI;
 		double tempFx = 0;
@@ -49,16 +46,14 @@ public class Calculations extends Thread {
 				
                 mainWindow.frame.repaint();
 			}
-			mainWindow.update();
-			 	
+			mainWindow.update();			 	
 		}
 	}
 
-	public int getFactorial(double d) {
+	public int getFactorial(double fact) {
 		int result = 1;
-		for (int index = 1; index <= d; index++)
+		for (int index = 1; index <= fact; index++)
 			result *= index;
 		return result;
-
 	}
 }

@@ -24,11 +24,8 @@ public class Table {
 		this.controller = controller;
 		columns.add("x");
 		columns.add("F(x)");
-		String[] headers = {"x", "F(x)"};
-        Object[][] info = new Object[100][100];
-		table = new JTable(model);
-				
-		//table.setModel(model);
+		table = new JTable(model);				
+		table.setModel(model);
 		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	    table.setPreferredScrollableViewportSize(new Dimension(150,350));

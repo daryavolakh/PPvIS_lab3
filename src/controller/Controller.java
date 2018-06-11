@@ -28,9 +28,4 @@ public class Controller {
 		if (coordinates.getValues().isEmpty() == false)
 			coordinates.clear();
 	}
-	
-	public void changeValues()
-	{
-		coordinates.changeValues();
-	}
 }

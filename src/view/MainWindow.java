@@ -2,13 +2,7 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-
 import javax.swing.*;
-import java.util.*;
-
-import javax.swing.table.DefaultTableModel;
 import model.Calculations;
 import controller.*;
 
@@ -22,7 +16,7 @@ public class MainWindow{
 	private PanelOfButtons panelButtons = new PanelOfButtons();
 	public Table mainTable;
 	public Display display;
-	public Calculations calc;//static
+	public Calculations calc;
 	public JScrollPane scroll;
 	
 	public MainWindow()
@@ -54,7 +48,6 @@ public class MainWindow{
 		scroll.getViewport().addMouseMotionListener(listener);
 		Zoom zoomListener = new Zoom(MainWindow.this,display,panelButtons);
 		scroll.addMouseWheelListener(zoomListener);
-		int res = (int) (display.getSize().getHeight()/display.getInitialSize().getHeight()*100 - 100);
 
 		
 		panelButtons.getMainButton().addActionListener(new ActionListener()
@@ -67,7 +60,8 @@ public class MainWindow{
 								JOptionPane.showMessageDialog(null, "Введены некорректные данные!");
 							}
 							 
-							else {
+							else 
+							{
 								controller.clear();
 								startCalculation();
 							}
@@ -87,25 +81,16 @@ public class MainWindow{
 					if (scale / 25 >= 1)
 					{
 						int number = (int) Math.floor(scale / 25);
-						display.setFontSize(display.getInitialFontSize()+ 3 * number); // initial		
-					}
-					
-					if (scale / 50 >= 1)
-					{
-						int number = (int) Math.floor(scale / 50);
-						display.setPenSize(display.getInitialPenSize() + number);
+						display.setFontSize(display.getInitialFontSize()+ 3 * number);					
 					}
 					
 					if (scale <= 25)
-					{
 						display.setFontSize(display.getInitialFontSize());
-						display.setPenSize(display.getInitialPenSize());
-					}
 					
-					int zoomH = (int) (scale * display.getInitialSize().getHeight() / 100);
-					int zoomW = (int) (scale * display.getInitialSize().getWidth() / 100);
+					int zoomH = (int) (scale * display.getfirstSize().getHeight() / 100);
+					int zoomW = (int) (scale * display.getfirstSize().getWidth() / 100);
 					
-					Dimension newSize = new Dimension((int)display.getInitialSize().getWidth() + zoomW, (int)display.getInitialSize().getHeight() + zoomH);
+					Dimension newSize = new Dimension((int)display.getfirstSize().getWidth() + zoomW, (int)display.getfirstSize().getHeight() + zoomH);
 					panelButtons.changeLabelScale("Масштаб: " + scale + "%");
 					display.setPreferredSize(newSize);
 					display.setSize(newSize);

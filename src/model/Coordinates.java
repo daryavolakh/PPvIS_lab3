@@ -26,18 +26,5 @@ public class Coordinates {
 	{
 		args.clear();
 		values.clear();
-	}
-	
-	public void changeValues()
-	{
-		/*ArrayList tempV = values;
-		values.clear();
-		for (int index = 0; index < tempV.size(); index++)
-		{	
-			double temp = (double) tempV.get(index) / 5	;
-			values.add(temp);
-		}
-		System.out.println(values);*/
-	}
-	
+	}	
 }
