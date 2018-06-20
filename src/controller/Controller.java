@@ -1,30 +1,28 @@
 package controller;
-import java.util.ArrayList;
 
+import java.util.List;
 import model.Coordinates;
-
+import view.Plot;
 
 public class Controller {
-	public Coordinates coordinates = new Coordinates();
-	public ArrayList values = new ArrayList();
+	public Coordinates coordinates;
+	public Plot graphic;
 	
-	public void addValues(double x, double fx)
+	public Controller(Coordinates coordinates)
 	{
-		coordinates.addValues(x,fx);
+		this.coordinates = coordinates;
 	}
-	
-	public ArrayList getValues()
-	{
-		return coordinates.getValues();
+
+	public void addValues(double x, double fx) {
+		//graphic.addValues(x,fx);
+		coordinates.addValues(x, fx);
 	}
-	
-	public ArrayList getArgs()
-	{
-		return coordinates.getArgs();
+
+	public List<List<Double>> getValues() {
+		return coordinates.getValues();   //graphic.getValues
 	}
-	
-	public void clear()
-	{
+
+	public void clear() {
 		if (coordinates.getValues().isEmpty() == false)
 			coordinates.clear();
 	}

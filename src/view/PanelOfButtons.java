@@ -18,13 +18,12 @@ public class PanelOfButtons {
 	public JLabel labelXEnd = new JLabel("-");
 	public JLabel labelScale = new JLabel("Масштаб: 0%");
 	public JButton button = new JButton("Построить");
-	public JButton buttonScale = new JButton("Изменить");	
-	
-	public PanelOfButtons()
-	{		
-		panel.setPreferredSize(new Dimension(350,400));
-        panel.setOpaque(true);
-		
+	public JButton buttonScale = new JButton("Изменить");
+
+	public PanelOfButtons() {
+		panel.setPreferredSize(new Dimension(350, 400));
+		panel.setOpaque(true);
+
 		panel.add(labelA);
 		panel.add(a);
 		panel.add(labelXBeg);
@@ -34,61 +33,51 @@ public class PanelOfButtons {
 		panel.add(button);
 		panel.add(labelScale);
 		panel.add(scale);
-		panel.add(buttonScale);	
+		panel.add(buttonScale);
 
-        panel.setVisible(true);
+		panel.setVisible(true);
 	}
-	
-	public JButton getMainButton()
-	{
+
+	public JButton getMainButton() {
 		return button;
 	}
-	
-	public JButton getScaleButton()
-	{
+
+	public JButton getScaleButton() {
 		return buttonScale;
 	}
-	
-	public int getA()
-	{
+
+	public int getA() {
 		int tempA = Integer.valueOf(a.getText());
 		return tempA;
 	}
-	
-	public double getXBegin()
-	{
+
+	public double getXBegin() {
 		double tempX = Integer.valueOf(xBeg.getText());
 		return tempX;
 	}
-	
-	public void changeLabelScale(String newScale)
-	{
+
+	public void changeLabelScale(String newScale) {
 		labelScale.setText(newScale);
 	}
-	
-	public JTextField getScale()
-	{
+
+	public JTextField getScale() {
 		return scale;
 	}
-	
-	public double getXEnd()
-	{
+
+	public double getXEnd() {
 		double tempX = Integer.valueOf(xEnd.getText());
 		return tempX;
 	}
-	
-	public String getValueA()
-	{
+
+	public String getValueA() {
 		return a.getText();
 	}
-	
-	public String getValueXBeg()
-	{
+
+	public String getValueXBeg() {
 		return xBeg.getText();
 	}
-	
-	public String getValueXEnd()
-	{
+
+	public String getValueXEnd() {
 		return xEnd.getText();
 	}
 }
