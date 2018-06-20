@@ -17,6 +17,11 @@ public class Controller {
 		//graphic.addValues(x,fx);
 		coordinates.addValues(x, fx);
 	}
+	
+	public void addValueOnPlace(int place, double x, double fx) {
+		//graphic.addValues(x,fx);
+		coordinates.addValueOnPlace(place, x, fx);
+	}
 
 	public List<List<Double>> getValues() {
 		return coordinates.getValues();   //graphic.getValues

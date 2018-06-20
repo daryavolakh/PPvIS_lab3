@@ -20,7 +20,7 @@ public class Zoom implements MouseWheelListener {
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent event) {
 		if (event.getPreciseWheelRotation() < 0 && KeyEvent.VK_CONTROL != 0) {
-			Dimension newSize = new Dimension(graphic.getWidth() + 125, graphic.getHeight() + 100);
+			Dimension newSize = new Dimension(graphic.getWidth() + 150, graphic.getHeight() + 100);
 			graphic.setPreferredSize(newSize);
 			graphic.setSize(newSize);
 			graphic.setFontSize(graphic.getFontSize() + 3);
@@ -31,7 +31,7 @@ public class Zoom implements MouseWheelListener {
 		}
 		if (event.getPreciseWheelRotation() > 0 && KeyEvent.VK_CONTROL != 0) {
 			if (graphic.getWidth() > graphic.getfirstSize().getWidth()) {
-				Dimension newSize = new Dimension(graphic.getWidth() - 125, graphic.getHeight() - 100);
+				Dimension newSize = new Dimension(graphic.getWidth() - 150, graphic.getHeight() - 100);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 				if (graphic.getFontSize() > 15) {

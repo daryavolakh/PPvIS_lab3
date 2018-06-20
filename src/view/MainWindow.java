@@ -3,6 +3,8 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import model.Calculations;
@@ -117,6 +119,37 @@ public class MainWindow {
 	}
 
 	public void update() {
+		List<List<Double>> values = controller.getValues();
+		
+		double maxY = (values.get(0)).get(1);
+		for (int index = 0; index < values.size(); index++)
+		{
+			if (Math.abs((values.get(index)).get(1)) > Math.pow(10, 12))
+			{
+				controller.addValueOnPlace(index,values.get(index).get(0),(values.get(index).get(1) / Math.pow(10, 12)));
+			}
+			else if (Math.abs((values.get(index)).get(1)) >= maxY)
+				maxY = Math.abs((values.get(index)).get(1));
+		}
+		
+		int newFx = (int) (10 * maxY);
+		System.out.println("HEAR RESULT - > " + maxY);
+		int drawY = display.getHeight() - (int) (0.02 * newFx * 2);
+		
+		if (drawY > display.getHeight())
+		{
+			Dimension newSize = new Dimension(display.getWidth(), (int) (drawY * 1.2));
+			display.setPreferredSize(newSize);
+			display.setSize(newSize);
+		}
+		
+		else if (drawY < display.getHeight() / 2)
+		{
+			Dimension newSize = new Dimension(600, 500);
+			display.setPreferredSize(newSize);
+			display.setSize(newSize);
+		}
+		
 		frame.repaint();
 		mainTable.update();
 	}

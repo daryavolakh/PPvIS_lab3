@@ -20,7 +20,8 @@ public class Plot extends JPanel {
 	public List<List<Double>> values = new ArrayList<>();
 	public Controller controller;
 	public MainWindow mainWindow;
-	public int penSize, fontSize;
+	public int penSize;
+	public int fontSize;
 	public Dimension firstSize;
 	public Dimension newSize;
 	public Dimension size;
@@ -103,7 +104,7 @@ public class Plot extends JPanel {
 			int drawX = center.width + 2 * newX * 2;   //size.width / 2 + 2 * newX * size.width / 300;
 			int drawY = center.height - (int) (0.02 * newFx * 2);   //size.height / 2 - (int) (0.02 * newFx * size.height / 250);
 			
-			if (Math.abs(drawY) > maxFx)
+	/*		if (Math.abs(drawY) < maxFx)
 			{
 				maxFx = Math.abs(drawY);
 
@@ -112,7 +113,7 @@ public class Plot extends JPanel {
 			}
 			
 			
-			if (Math.abs(drawX) > maxX / 2 || drawX < 0)
+			if (Math.abs(drawX) > maxX / 2)
 			{
 				maxX = Math.abs(drawX);
 			}
@@ -120,10 +121,10 @@ public class Plot extends JPanel {
 			if (index == values.size() - 1)
 			{				
 				newSize =  new Dimension ((int) (maxX), (int) (1.1 * maxFx));
-				
-				setPreferredSize(newSize);
-				setSize(newSize);
-			}			
+				size = newSize;
+				setPreferredSize(size);
+				setSize(size);
+			}	*/	
 			graph.drawLine(drawPrevX, drawPrevY, drawX, drawY);
 		}
 	}
@@ -157,7 +158,7 @@ public class Plot extends JPanel {
 	}
 
 	public Dimension getfirstSize() {
-		return firstSize;
+		return size;
 	}
 
 	public int getInitialFontSize() {
