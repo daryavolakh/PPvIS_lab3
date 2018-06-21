@@ -1,34 +1,67 @@
 package controller;
 
 import java.util.List;
-import model.Coordinates;
-import view.Plot;
+
+import view.MainWindow;
 
 public class Controller {
-	public Coordinates coordinates;
-	public Plot graphic;
+	public MainWindow window;
+	public int a;
+	public double xBeg;
+	public double xEnd;
 	
-	public Controller(Coordinates coordinates)
+	public Controller (MainWindow window)
 	{
-		this.coordinates = coordinates;
+		this.window = window;
 	}
 
 	public void addValues(double x, double fx) {
-		//graphic.addValues(x,fx);
-		coordinates.addValues(x, fx);
+		window.addValues(x, fx);
+		window.update();
 	}
 	
 	public void addValueOnPlace(int place, double x, double fx) {
-		//graphic.addValues(x,fx);
-		coordinates.addValueOnPlace(place, x, fx);
+		window.addValueOnPlace(place, x, fx);
+		window.update();
 	}
 
 	public List<List<Double>> getValues() {
-		return coordinates.getValues();   //graphic.getValues
+		return window.getValues();
 	}
 
 	public void clear() {
-		if (coordinates.getValues().isEmpty() == false)
-			coordinates.clear();
+		if (window.getValues().isEmpty() == false)
+			window.clear();
+		window.update();
+	}
+	
+	public void setA(int a)
+	{
+		this.a = a;
+	}
+	
+	public void setXBeg(double xBeg)
+	{
+		this.xBeg = xBeg;
+	}
+	
+	public void setXEnd(double xEnd)
+	{
+		this.xEnd = xEnd;
+	}
+	
+	public int getA()
+	{
+		return a;
+	}
+	
+	public double getXBeg()
+	{
+		return xBeg;
+	}
+	
+	public double getXEnd()
+	{
+		return xEnd;
 	}
 }

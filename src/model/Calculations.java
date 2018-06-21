@@ -1,7 +1,5 @@
 package model;
 
-import view.*;
-
 import controller.Controller;
 
 public class Calculations implements Runnable {
@@ -11,15 +9,14 @@ public class Calculations implements Runnable {
 	public double endI;
 	public int a;
 	public double h = 0.1;
-	public MainWindow mainWindow;
 	public Controller controller;
 
-	public Calculations(MainWindow mainWindow, Controller controller) {
-		this.mainWindow = mainWindow;
+	public Calculations(Controller controller) {	
+	
 		this.controller = controller;
-		a = mainWindow.tempA;
-		beginI = mainWindow.tempXBeg;
-		endI = mainWindow.tempXEnd;
+		a = controller.getA();
+		beginI = controller.getXBeg();
+		endI = controller.getXEnd();
 	}
 
 	public double function(double x) {
@@ -32,7 +29,7 @@ public class Calculations implements Runnable {
 
 	@Override
 	public void run() {
-		synchronized (mainWindow) {
+		synchronized (this) {
 			double beginX = beginI;
 			double endX = endI;
 			double tempFx = 0;
@@ -50,7 +47,6 @@ public class Calculations implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				mainWindow.update(); 
 			}
 		}
 	}

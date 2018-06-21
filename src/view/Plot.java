@@ -11,15 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import controller.Controller;
 
 public class Plot extends JPanel {
 
 	private int width = 600;
 	private int height = 500;
 	public List<List<Double>> values = new ArrayList<>();
-	public Controller controller;
-	public MainWindow mainWindow;
 	public int penSize;
 	public int fontSize;
 	public Dimension firstSize;
@@ -29,9 +26,7 @@ public class Plot extends JPanel {
 	public int initialFontSize = 15;
 	public int initialPenSize = 1;
 
-	public Plot(MainWindow mainWindow, Controller controller) {
-		this.mainWindow = mainWindow;
-		this.controller = controller;
+	public Plot() {
 		size = new Dimension(width, height);
 		center = new Dimension(width / 2, height / 2);
 		setPreferredSize(size);
@@ -80,10 +75,8 @@ public class Plot extends JPanel {
 			graph.drawLine(size.width / 2 - 3, 20 * index, size.width / 2 + 3, 20 * index);
 		}
 
-		values = controller.getValues();
-
 		for (int index = 1; index < values.size(); index++) {
-			
+
 			double tempFx = (values.get(index)).get(1);
 			double tempX = (values.get(index)).get(0);
 			double prevFx = (values.get(index - 1)).get(1);
@@ -93,45 +86,55 @@ public class Plot extends JPanel {
 			int newX = (int) (10 * tempX);
 			int newprevFx = (int) (10 * prevFx);
 			int newPrevX = (int) (10 * prevX);
-			//maxFx = newFx;
 
 			graph.setColor(Color.RED);
-			int drawPrevX = center.width + 4 * newPrevX; 
-			int drawPrevY = center.height - (int) (0.02 * newprevFx * 2); 
-													
-			int drawX = center.width + 4 * newX; 
-			int drawY = center.height - (int) (0.02 * newFx * 2); 
+			int drawPrevX = center.width + 4 * newPrevX;
+			int drawPrevY = center.height - (int) (0.02 * newprevFx * 2);
+
+			int drawX = center.width + 4 * newX;
+			int drawY = center.height - (int) (0.02 * newFx * 2);
 
 			graph.drawLine(drawPrevX, drawPrevY, drawX, drawY);
 			graph.setColor(Color.DARK_GRAY);
 			if (index == 1) {
 				String stringX = (values.get(0)).get(0).toString();
 				String stringY = (values.get(0)).get(1).toString();
-				
+
 				graph.drawString(stringX, drawPrevX, size.height / 2 + 20);
 				graph.drawString(stringY, size.width / 2 - 50, drawPrevY);
 			}
-			
+
 			if (values.get(index).get(0) % 1 == 0) {
-				String stringX = (values.get(index)).get(0).toString();				
+				String stringX = (values.get(index)).get(0).toString();
 				String stringY = (values.get(index)).get(1).toString();
-				
-				graph.drawString(stringX, drawX, size.height / 2 + 20);	
+
+				graph.drawString(stringX, drawX, size.height / 2 + 20);
 				graph.drawString(stringY, size.width / 2 - 50, drawY);
 			}
-
 		}
 	}
-
+	
 	public List<List<Double>> getValues() {
 		return values;
 	}
 
 	public void addValues(double x, double fx) {
 		List<Double> newValues = new ArrayList<>();
-		newValues.add(0, x);
-		newValues.add(1, fx);
+		newValues.add(0,x);
+		newValues.add(1,fx);
 		values.add(newValues);
+	}
+	
+	public void addValueOnPlace(int place, double x, double fx)
+	{
+		List<Double> newPoints = new ArrayList<>();
+		newPoints.add(0,x);
+		newPoints.add(1,fx);
+		values.set(place, newPoints);
+	}
+
+	public void clear() {
+		values.clear();
 	}
 
 	public void setFontSize(int fontSize) {
@@ -150,10 +153,6 @@ public class Plot extends JPanel {
 		return penSize;
 	}
 
-	public Dimension getFirstSize() {
-		return size;
-	}
-
 	public int getInitialFontSize() {
 		return initialFontSize;
 	}
@@ -165,5 +164,4 @@ public class Plot extends JPanel {
 	public void clean() {
 		values.clear();
 	}
-
 }

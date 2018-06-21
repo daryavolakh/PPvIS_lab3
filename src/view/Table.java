@@ -9,19 +9,15 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
-import controller.Controller;
-
 public class Table {
 	public Vector<String> columns = new Vector<String>();
 	public DefaultTableModel model = new DefaultTableModel(columns, 0);
 	public JTable table;
 	public JScrollPane scrollPane;
 	public MainWindow mainWindow;
-	public Controller controller;
 
-	public Table(MainWindow mainWindow, Controller controller) {
+	public Table(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
-		this.controller = controller;
 		columns.add("x");
 		columns.add("F(x)");
 		table = new JTable();
@@ -38,12 +34,12 @@ public class Table {
 
 	public void update() {
 
-		List<List<Double>> newValues = controller.getValues();
+		List<List<Double>> newValues = mainWindow.getValues();
 
 		model = new DefaultTableModel(columns,0);
 		table.setModel(model);
 		
-		for (int index = 0; index < controller.getValues().size(); index++) {
+		for (int index = 0; index < mainWindow.getValues().size(); index++) {
 			Vector<Double> vector = new Vector<Double>();
 
 			vector.add(newValues.get(index).get(0));

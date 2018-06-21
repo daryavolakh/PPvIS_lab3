@@ -18,13 +18,13 @@ public class MainWindow {
 	public double tempXBeg, tempXEnd;
 	private PanelOfButtons panelButtons = new PanelOfButtons();
 	public Table mainTable;
-	public Plot display;
+	public Plot graphic;
 	public Calculations calc;
 	public JScrollPane scroll;
 
-	public MainWindow(Controller controller) {
-
-		this.controller = controller;
+	public MainWindow() {
+		
+		controller = new Controller(MainWindow.this);
 		frame.setPreferredSize(new Dimension(width, height));
 		frame.setMinimumSize(new Dimension(width, height));
 		frame.setMaximumSize(new Dimension(width, height));
@@ -33,10 +33,11 @@ public class MainWindow {
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(new FlowLayout());
 
-		display = new Plot(MainWindow.this, controller);
-		mainTable = new Table(this, controller);
+		graphic = new Plot();
+		
+		mainTable = new Table(this);
 
-		scroll = new JScrollPane(display);
+		scroll = new JScrollPane(graphic);
 		scroll.setPreferredSize(new Dimension(605, 505));
 		scroll.setAutoscrolls(true);
 		scroll.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
@@ -45,11 +46,11 @@ public class MainWindow {
 		frame.add(scroll);
 		frame.add(panelButtons.panel);
 
-		MoveMouse listener = new MoveMouse(display);
+		MoveMouse listener = new MoveMouse(graphic);
 		scroll.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		scroll.getViewport().addMouseListener(listener);
 		scroll.getViewport().addMouseMotionListener(listener);
-		Zoom zoomListener = new Zoom(MainWindow.this, display, panelButtons);
+		Zoom zoomListener = new Zoom(MainWindow.this, graphic, panelButtons);
 		scroll.addMouseWheelListener(zoomListener);
 
 		panelButtons.getMainButton().addActionListener(new ActionListener() {
@@ -62,7 +63,7 @@ public class MainWindow {
 									.valueOf(panelButtons.getValueXEnd())) {
 						JOptionPane.showMessageDialog(null, "Введены некорректные данные!");
 					} else {
-						controller.clear();
+						graphic.clear();
 						startCalculation();
 					}
 				} catch (InterruptedException e) {
@@ -79,21 +80,21 @@ public class MainWindow {
 				if (scale >= 0) {
 					if (scale / 25 >= 1) {
 						int number = (int) Math.floor(scale / 25);
-						display.setFontSize(display.getInitialFontSize() + 3 * number);
+						graphic.setFontSize(graphic.getInitialFontSize() + 3 * number);
 					}
 
 					if (scale <= 25)
-						display.setFontSize(display.getInitialFontSize());
+						graphic.setFontSize(graphic.getInitialFontSize());
 
 					int zoomW = (int) (scale * 6);
 					int zoomH = (int) (scale * 5);
 
-					Dimension newSize = new Dimension((int) 600 + zoomW,
-							(int) 500 + zoomH);
+					Dimension newSize = new Dimension((int) 602 + zoomW,
+							(int) 502 + zoomH);
 					panelButtons.changeLabelScale("Масштаб: " + scale + "%");
-					display.setPreferredSize(newSize);
-					display.setSize(newSize);
-					display.revalidate();
+					graphic.setPreferredSize(newSize);
+					graphic.setSize(newSize);
+					graphic.revalidate();
 				}
 			}
 		});
@@ -106,14 +107,16 @@ public class MainWindow {
 			return;
 		} else {
 			tempA = panelButtons.getA();
+			controller.setA(tempA);
 			tempXBeg = panelButtons.getXBegin();
+			controller.setXBeg(tempXBeg);
 			tempXEnd = panelButtons.getXEnd();
+			controller.setXEnd(tempXEnd);
 		}
 
-		calc = new Calculations(MainWindow.this, controller);
+		calc = new Calculations(controller);
 		Thread thread = new Thread(calc);
 		thread.start();
-
 	}
 
 	public void update() {
@@ -135,7 +138,7 @@ public class MainWindow {
 			int newFx = (int) (10 * maxY);
 			int newX = (int) (10 * maxX);
 			
-			Dimension firstSize = new Dimension(600,500);
+			Dimension firstSize = new Dimension(602,502);
 			
 			int drawY = (int) (firstSize.getHeight() / 2 - 0.02 * newFx * 2);			
 			int drawX = (int) (firstSize.getWidth() / 2 + 4 * newX);
@@ -143,38 +146,55 @@ public class MainWindow {
 			
 			if (Math.abs(drawY) > firstSize.getHeight() && Math.abs(drawX) > firstSize.getWidth()) {
 				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), (int) (Math.abs(drawY) * 2.5));
-				display.setPreferredSize(newSize);
-				display.setSize(newSize);
+				graphic.setPreferredSize(newSize);
+				graphic.setSize(newSize);
 			}
 
 			else if (Math.abs(drawY) > firstSize.getHeight()) {
-				Dimension newSize = new Dimension(display.getWidth(), (int) (Math.abs(drawY) * 3));
-				display.setPreferredSize(newSize);
-				display.setSize(newSize);
+				Dimension newSize = new Dimension(graphic.getWidth(), (int) (Math.abs(drawY) * 3));
+				graphic.setPreferredSize(newSize);
+				graphic.setSize(newSize);
 			}
 			
 			else if (drawY < 0)
 			{
-				Dimension newSize = new Dimension(display.getWidth(), (int) (500 + Math.abs(drawY) * 2.5));
-				display.setPreferredSize(newSize);
-				display.setSize(newSize);
+				Dimension newSize = new Dimension(graphic.getWidth(), (int) (502 + Math.abs(drawY) * 2.5));
+				graphic.setPreferredSize(newSize);
+				graphic.setSize(newSize);
 			}
 
 			else if (Math.abs(drawX) > firstSize.getWidth()) {
-				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), display.getHeight());
-				display.setPreferredSize(newSize);
-				display.setSize(newSize);
+				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), graphic.getHeight());
+				graphic.setPreferredSize(newSize);
+				graphic.setSize(newSize);
 			}
 
-			else if (Math.abs(drawY) <= 500 && Math.abs(drawX) <= 600) {
-				Dimension newSize = new Dimension(600, 500);
-				display.setPreferredSize(newSize);
-				display.setSize(newSize);
+			else if (Math.abs(drawY) <= 502 && Math.abs(drawX) <= 602) {
+				Dimension newSize = new Dimension(602, 502);
+				graphic.setPreferredSize(newSize);
+				graphic.setSize(newSize);
 			}
 		}
 
 		frame.repaint();
 		mainTable.update();
+	}
+	
+	public List<List<Double>> getValues() {
+		return graphic.getValues();
+	}
+
+	public void addValues(double x, double fx) {
+		graphic.addValues(x, fx);
+	}
+	
+	public void addValueOnPlace(int place, double x, double fx)
+	{
+		graphic.addValueOnPlace(place,x,fx);
+	}
+
+	public void clear() {
+		graphic.clear();
 	}
 
 	public void show() {
