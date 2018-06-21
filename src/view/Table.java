@@ -24,7 +24,7 @@ public class Table {
 		this.controller = controller;
 		columns.add("x");
 		columns.add("F(x)");
-		table = new JTable(model);
+		table = new JTable();
 		table.setModel(model);
 		scrollPane = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -39,16 +39,15 @@ public class Table {
 	public void update() {
 
 		List<List<Double>> newValues = controller.getValues();
-		
-		for (int index = model.getRowCount() - 1; index >= 0; index--) {
-			model.removeRow(index);
-		}
 
+		model = new DefaultTableModel(columns,0);
+		table.setModel(model);
+		
 		for (int index = 0; index < controller.getValues().size(); index++) {
 			Vector<Double> vector = new Vector<Double>();
 
-			vector.addAll(newValues.get(index));
-
+			vector.add(newValues.get(index).get(0));
+			vector.add(newValues.get(index).get(1));
 			model.addRow(vector);
 		}
 	}

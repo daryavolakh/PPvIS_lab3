@@ -3,7 +3,6 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -24,7 +23,7 @@ public class MainWindow {
 	public JScrollPane scroll;
 
 	public MainWindow(Controller controller) {
-		
+
 		this.controller = controller;
 		frame.setPreferredSize(new Dimension(width, height));
 		frame.setMinimumSize(new Dimension(width, height));
@@ -58,14 +57,13 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent event) {
 				try {
 					if (panelButtons.getValueXBeg().equals("") || panelButtons.getValueXEnd().equals("")
-							|| panelButtons.getValueA().equals("")) {
+							|| panelButtons.getValueA().equals("")
+							|| Integer.valueOf(panelButtons.getValueXBeg()) >= Integer
+									.valueOf(panelButtons.getValueXEnd())) {
 						JOptionPane.showMessageDialog(null, "Введены некорректные данные!");
-					}
-					else 
-					{
+					} else {
 						controller.clear();
 						startCalculation();
-						//mainTable.update();  когда словит сообщение от побочного потока
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -87,11 +85,11 @@ public class MainWindow {
 					if (scale <= 25)
 						display.setFontSize(display.getInitialFontSize());
 
-					int zoomH = (int) (scale * display.getfirstSize().getHeight() / 100);
-					int zoomW = (int) (scale * display.getfirstSize().getWidth() / 100);
+					int zoomW = (int) (scale * 6);
+					int zoomH = (int) (scale * 5);
 
-					Dimension newSize = new Dimension((int) display.getfirstSize().getWidth() + zoomW,
-							(int) display.getfirstSize().getHeight() + zoomH);
+					Dimension newSize = new Dimension((int) 600 + zoomW,
+							(int) 500 + zoomH);
 					panelButtons.changeLabelScale("Масштаб: " + scale + "%");
 					display.setPreferredSize(newSize);
 					display.setSize(newSize);
@@ -115,45 +113,69 @@ public class MainWindow {
 		calc = new Calculations(MainWindow.this, controller);
 		Thread thread = new Thread(calc);
 		thread.start();
-		
+
 	}
 
 	public void update() {
 		List<List<Double>> values = controller.getValues();
 		
-		double maxY = (values.get(0)).get(1);
-		for (int index = 0; index < values.size(); index++)
-		{
-			if (Math.abs((values.get(index)).get(1)) > Math.pow(10, 12))
-			{
-				controller.addValueOnPlace(index,values.get(index).get(0),(values.get(index).get(1) / Math.pow(10, 12)));
+		if (values.size() == 1 + 10 * (Integer.valueOf(panelButtons.getValueXEnd()) - Integer.valueOf(panelButtons.getValueXBeg()))) {
+			
+			double maxY = Math.abs((values.get(0)).get(1));
+			double maxX = Math.abs((values.get(0)).get(0));
+			
+			for (int index = 0; index < values.size(); index++) {
+				if (Math.abs((values.get(index)).get(1)) > maxY)
+					maxY = Math.abs((values.get(index)).get(1));
+				
+				if (Math.abs((values.get(index)).get(0)) > maxX)
+					maxX = Math.abs((values.get(index)).get(0));
 			}
-			else if (Math.abs((values.get(index)).get(1)) >= maxY)
-				maxY = Math.abs((values.get(index)).get(1));
+
+			int newFx = (int) (10 * maxY);
+			int newX = (int) (10 * maxX);
+			
+			Dimension firstSize = new Dimension(600,500);
+			
+			int drawY = (int) (firstSize.getHeight() / 2 - 0.02 * newFx * 2);			
+			int drawX = (int) (firstSize.getWidth() / 2 + 4 * newX);
+
+			
+			if (Math.abs(drawY) > firstSize.getHeight() && Math.abs(drawX) > firstSize.getWidth()) {
+				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), (int) (Math.abs(drawY) * 2.5));
+				display.setPreferredSize(newSize);
+				display.setSize(newSize);
+			}
+
+			else if (Math.abs(drawY) > firstSize.getHeight()) {
+				Dimension newSize = new Dimension(display.getWidth(), (int) (Math.abs(drawY) * 3));
+				display.setPreferredSize(newSize);
+				display.setSize(newSize);
+			}
+			
+			else if (drawY < 0)
+			{
+				Dimension newSize = new Dimension(display.getWidth(), (int) (500 + Math.abs(drawY) * 2.5));
+				display.setPreferredSize(newSize);
+				display.setSize(newSize);
+			}
+
+			else if (Math.abs(drawX) > firstSize.getWidth()) {
+				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), display.getHeight());
+				display.setPreferredSize(newSize);
+				display.setSize(newSize);
+			}
+
+			else if (Math.abs(drawY) <= 500 && Math.abs(drawX) <= 600) {
+				Dimension newSize = new Dimension(600, 500);
+				display.setPreferredSize(newSize);
+				display.setSize(newSize);
+			}
 		}
-		
-		int newFx = (int) (10 * maxY);
-		System.out.println("HEAR RESULT - > " + maxY);
-		int drawY = display.getHeight() - (int) (0.02 * newFx * 2);
-		
-		if (drawY > display.getHeight())
-		{
-			Dimension newSize = new Dimension(display.getWidth(), (int) (drawY * 1.2));
-			display.setPreferredSize(newSize);
-			display.setSize(newSize);
-		}
-		
-		else if (drawY < display.getHeight() / 2)
-		{
-			Dimension newSize = new Dimension(600, 500);
-			display.setPreferredSize(newSize);
-			display.setSize(newSize);
-		}
-		
+
 		frame.repaint();
 		mainTable.update();
 	}
-
 
 	public void show() {
 		frame.setVisible(true);

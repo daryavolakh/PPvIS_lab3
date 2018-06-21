@@ -25,7 +25,7 @@ public class Calculations implements Runnable {
 	public double function(double x) {
 		double fx = 0;
 		for (double i = beginI; i <= endI; i++) {
-			fx += Math.pow((-1), (i + 1)) * Math.pow(2, (2 * i + 1)) * Math.pow((a * x), 2*i) / getFactorial(2 * i);//Math.pow((-1), (i + 1)) * Math.pow(2, (2 * i + 1)) * Math.pow((a * x), 2 * i) / getFactorial(2 * i);
+			fx += Math.pow((-1), (i + 1)) * Math.pow(2, (2 * i + 1)) * Math.pow((a * x), 2 * i) / getFactorial(2 * i);//Math.pow((-1), (i + 1)) * Math.pow(2, (2 * i + 1)) * Math.pow((a * x), 2 * i) / getFactorial(2 * i);
 		}
 		return fx;
 	}

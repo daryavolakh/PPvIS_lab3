@@ -24,20 +24,20 @@ public class Zoom implements MouseWheelListener {
 			graphic.setPreferredSize(newSize);
 			graphic.setSize(newSize);
 			graphic.setFontSize(graphic.getFontSize() + 3);
-			int scale = (int) (graphic.getSize().getHeight() / graphic.getfirstSize().getHeight() * 100 - 100);
+			int scale = (int) (graphic.getSize().getHeight() / 5 - 100);
 
 			buttons.changeLabelScale("Масштаб: " + scale + "%");
 			graphic.revalidate();
 		}
 		if (event.getPreciseWheelRotation() > 0 && KeyEvent.VK_CONTROL != 0) {
-			if (graphic.getWidth() > graphic.getfirstSize().getWidth()) {
+			if (graphic.getWidth() > 600) {
 				Dimension newSize = new Dimension(graphic.getWidth() - 150, graphic.getHeight() - 100);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 				if (graphic.getFontSize() > 15) {
 					graphic.setFontSize(graphic.getFontSize() - 3);
 				}
-				int scale = (int) (graphic.getSize().getHeight() / graphic.getfirstSize().getHeight() * 100 - 100);
+				int scale = (int) (graphic.getSize().getHeight() / 5 - 100);
 				if (scale < 0) {
 					scale = 0;
 					buttons.changeLabelScale("Масштаб: " + scale + "%");
