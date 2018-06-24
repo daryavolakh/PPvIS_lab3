@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Coordinates {
+//	class Point{
+//		double x;
+//		double y;
+//	}
+//	List<Point> values = new ArrayList<>();
 	List<List<Double>> values = new ArrayList<>();
-
+//	Map<String,Map<String<Map<String,Ma>>>>
+	
 	public List<List<Double>> getValues() {
 		return values;
 	}

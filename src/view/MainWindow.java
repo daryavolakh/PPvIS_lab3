@@ -89,12 +89,11 @@ public class MainWindow {
 					int zoomW = (int) (scale * 6);
 					int zoomH = (int) (scale * 5);
 
-					Dimension newSize = new Dimension((int) 602 + zoomW,
-							(int) 502 + zoomH);
+					Dimension newSize = new Dimension((int) graphic.getFirstSize().getWidth() + zoomW,
+							(int) graphic.getFirstSize().getHeight() + zoomH);
 					panelButtons.changeLabelScale("Масштаб: " + scale + "%");
 					graphic.setPreferredSize(newSize);
 					graphic.setSize(newSize);
-					graphic.revalidate();
 				}
 			}
 		});
@@ -146,12 +145,14 @@ public class MainWindow {
 			
 			if (Math.abs(drawY) > firstSize.getHeight() && Math.abs(drawX) > firstSize.getWidth()) {
 				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), (int) (Math.abs(drawY) * 2.5));
+				graphic.changeFirstSize(newSize);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 			}
 
 			else if (Math.abs(drawY) > firstSize.getHeight()) {
 				Dimension newSize = new Dimension(graphic.getWidth(), (int) (Math.abs(drawY) * 3));
+				graphic.changeFirstSize(newSize);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 			}
@@ -159,18 +160,21 @@ public class MainWindow {
 			else if (drawY < 0)
 			{
 				Dimension newSize = new Dimension(graphic.getWidth(), (int) (502 + Math.abs(drawY) * 2.5));
+				graphic.changeFirstSize(newSize);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 			}
 
 			else if (Math.abs(drawX) > firstSize.getWidth()) {
 				Dimension newSize = new Dimension((int) (Math.abs(drawX) * 2), graphic.getHeight());
+				graphic.changeFirstSize(newSize);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 			}
 
 			else if (Math.abs(drawY) <= 502 && Math.abs(drawX) <= 602) {
 				Dimension newSize = new Dimension(602, 502);
+				graphic.changeFirstSize(newSize);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
 			}
@@ -178,6 +182,11 @@ public class MainWindow {
 
 		frame.repaint();
 		mainTable.update();
+	}
+	
+	public void repaintGraph()
+	{
+		frame.repaint();
 	}
 	
 	public List<List<Double>> getValues() {

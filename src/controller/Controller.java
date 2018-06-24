@@ -15,12 +15,12 @@ public class Controller {
 		this.window = window;
 	}
 
-	public void addValues(double x, double fx) {
+	public synchronized void addValues(double x, double fx) {
 		window.addValues(x, fx);
 		window.update();
 	}
 	
-	public void addValueOnPlace(int place, double x, double fx) {
+	public synchronized void addValueOnPlace(int place, double x, double fx) {
 		window.addValueOnPlace(place, x, fx);
 		window.update();
 	}
@@ -29,7 +29,7 @@ public class Controller {
 		return window.getValues();
 	}
 
-	public void clear() {
+	public synchronized void clear() {
 		if (window.getValues().isEmpty() == false)
 			window.clear();
 		window.update();

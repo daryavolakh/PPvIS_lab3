@@ -24,8 +24,8 @@ public class Zoom implements MouseWheelListener {
 			graphic.setPreferredSize(newSize);
 			graphic.setSize(newSize);
 			graphic.setFontSize(graphic.getFontSize() + 3);
-			int scale = (int) (graphic.getSize().getHeight() / 5 - 100);
-
+			int scale = (int) (Math.abs(graphic.getSize().getHeight() / 5 - 100));
+			
 			buttons.changeLabelScale("Масштаб: " + scale + "%");
 			graphic.revalidate();
 		}
@@ -34,17 +34,20 @@ public class Zoom implements MouseWheelListener {
 				Dimension newSize = new Dimension(graphic.getWidth() - 150, graphic.getHeight() - 100);
 				graphic.setPreferredSize(newSize);
 				graphic.setSize(newSize);
+				
 				if (graphic.getFontSize() > 15) {
 					graphic.setFontSize(graphic.getFontSize() - 3);
 				}
-				int scale = (int) (graphic.getSize().getHeight() / 5 - 100);
+				
+				int scale = (int) (Math.abs(graphic.getSize().getHeight() / 5 - 100));
+				
 				if (scale < 0) {
 					scale = 0;
 					buttons.changeLabelScale("Масштаб: " + scale + "%");
 				}
+				
 				buttons.changeLabelScale("Масштаб: " + scale + "%");
-				graphic.revalidate();
-				mainWindow.frame.repaint();
+				mainWindow.repaintGraph();
 			}
 		}
 

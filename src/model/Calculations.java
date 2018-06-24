@@ -29,7 +29,6 @@ public class Calculations implements Runnable {
 
 	@Override
 	public void run() {
-		synchronized (this) {
 			double beginX = beginI;
 			double endX = endI;
 			double tempFx = 0;
@@ -48,7 +47,7 @@ public class Calculations implements Runnable {
 					e.printStackTrace();
 				}
 			}
-		}
+		
 	}
 
 	public int getFactorial(double fact) {

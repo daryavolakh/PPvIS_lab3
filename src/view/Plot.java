@@ -17,7 +17,6 @@ public class Plot extends JPanel {
 	private int width = 600;
 	private int height = 500;
 	public List<List<Double>> values = new ArrayList<>();
-	public int penSize;
 	public int fontSize;
 	public Dimension firstSize;
 	public Dimension newSize;
@@ -32,7 +31,6 @@ public class Plot extends JPanel {
 		setPreferredSize(size);
 		setSize(size);
 
-		penSize = 1;
 		fontSize = 15;
 		firstSize = new Dimension(600, 500);
 	}
@@ -49,7 +47,7 @@ public class Plot extends JPanel {
 		Graphics2D graph = (Graphics2D) graphic;
 
 		graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		graph.setStroke(new BasicStroke(penSize));
+
 		graph.setFont(new Font("Calibri", Font.PLAIN, fontSize));
 
 		graph.drawLine(10, size.height / 2, size.width - 10, size.height / 2);
@@ -63,12 +61,11 @@ public class Plot extends JPanel {
 
 		graph.drawString("X", size.width - 20, size.height / 2 + 20);
 		graph.drawString("Y", size.width / 2 - 20, 20);
-		graph.drawString("0", size.width / 2 - 15, size.height / 2 + 15);
+		graph.drawString("0", size.width / 2 - 20, size.height / 2 + 20);
 
 		for (int index = 1; index < size.width / 20; index++) {
 			graph.drawLine((int) (20 * 1.005 * index), size.height / 2 - 3, (int) (20 * 1.005 * index),
 					size.height / 2 + 3);
-
 		}
 
 		for (int index = 1; index < size.height / 20; index++) {
@@ -100,7 +97,7 @@ public class Plot extends JPanel {
 				String stringX = (values.get(0)).get(0).toString();
 				String stringY = (values.get(0)).get(1).toString();
 
-				graph.drawString(stringX, drawPrevX, size.height / 2 + 20);
+				graph.drawString(stringX, drawPrevX, size.height / 2 + 30);
 				graph.drawString(stringY, size.width / 2 - 50, drawPrevY);
 			}
 
@@ -108,7 +105,7 @@ public class Plot extends JPanel {
 				String stringX = (values.get(index)).get(0).toString();
 				String stringY = (values.get(index)).get(1).toString();
 
-				graph.drawString(stringX, drawX, size.height / 2 + 20);
+				graph.drawString(stringX, drawX, size.height / 2 + 30);
 				graph.drawString(stringY, size.width / 2 - 50, drawY);
 			}
 		}
@@ -145,14 +142,6 @@ public class Plot extends JPanel {
 		return fontSize;
 	}
 
-	public void setPenSize(int penSize) {
-		this.penSize = penSize;
-	}
-
-	public int getPenSize() {
-		return penSize;
-	}
-
 	public int getInitialFontSize() {
 		return initialFontSize;
 	}
@@ -160,8 +149,14 @@ public class Plot extends JPanel {
 	public int getInitialPenSize() {
 		return initialPenSize;
 	}
-
-	public void clean() {
-		values.clear();
+	
+	public Dimension getFirstSize()
+	{
+		return firstSize;
+	}
+	
+	public void changeFirstSize(Dimension tempSize)
+	{
+		firstSize = tempSize;
 	}
 }
